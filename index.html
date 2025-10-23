@@ -255,8 +255,8 @@
             No spam, just valuable content delivered to your inbox.
         </p>
 
-        <!-- Free email collection form -->
-        <form id="newsletterForm" action="mailto:YOUR_EMAIL@example.com" method="POST" enctype="text/plain">
+        <!-- EmailJS integration form -->
+        <form id="newsletterForm" action="#" method="POST">
             <div class="form-group">
                 <label for="email">Email Address</label>
                 <input 
@@ -303,7 +303,22 @@
     </div>
 
     <script>
-        // Free email collection - no signup required!
+        // EmailJS configuration - UPDATE THESE VALUES
+        const EMAILJS_PUBLIC_KEY = 'YOUR_PUBLIC_KEY_HERE'; // Replace with your EmailJS Public Key
+        const EMAILJS_SERVICE_ID = 'YOUR_SERVICE_ID_HERE'; // Replace with your EmailJS Service ID
+        const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID_HERE'; // Replace with your EmailJS Template ID
+
+        // Initialize EmailJS
+        (function() {
+            // Load EmailJS script
+            const script = document.createElement('script');
+            script.src = 'https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js';
+            script.onload = function() {
+                emailjs.init(EMAILJS_PUBLIC_KEY);
+            };
+            document.head.appendChild(script);
+        })();
+
         document.getElementById('newsletterForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -338,20 +353,42 @@
                 return;
             }
             
-            // Simulate form submission (free solution)
-            setTimeout(() => {
-                successMessage.innerHTML = '🎉 Thank you for subscribing! I\'ll add you to my newsletter list.';
+            // Check if EmailJS is configured
+            if (EMAILJS_PUBLIC_KEY === 'YOUR_PUBLIC_KEY_HERE' || EMAILJS_SERVICE_ID === 'YOUR_SERVICE_ID_HERE' || EMAILJS_TEMPLATE_ID === 'YOUR_TEMPLATE_ID_HERE') {
+                // Show success message (form works but no email collection yet)
+                setTimeout(() => {
+                    successMessage.innerHTML = '🎉 Thank you for subscribing! (EmailJS not configured yet)';
+                    successMessage.style.display = 'block';
+                    this.reset();
+                    submitBtn.disabled = false;
+                    btnText.style.display = 'inline';
+                    loading.classList.remove('show');
+                }, 1000);
+                return;
+            }
+            
+            // Send email via EmailJS
+            emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+                to_email: 'YOUR_EMAIL@example.com', // Replace with your email
+                from_email: email,
+                message: 'New newsletter subscriber: ' + email
+            })
+            .then(function(response) {
+                successMessage.innerHTML = '🎉 Thank you for subscribing! Check your email for confirmation.';
                 successMessage.style.display = 'block';
-                this.reset();
-                
+                document.getElementById('newsletterForm').reset();
+            })
+            .catch(function(error) {
+                console.error('EmailJS error:', error);
+                errorMessage.innerHTML = '❌ Something went wrong. Please try again later.';
+                errorMessage.style.display = 'block';
+            })
+            .finally(function() {
                 // Reset button state
                 submitBtn.disabled = false;
                 btnText.style.display = 'inline';
                 loading.classList.remove('show');
-                
-                // Optional: Log the email (you can check browser console)
-                console.log('New subscriber:', email);
-            }, 1000);
+            });
         });
 
         // Add some interactive effects
