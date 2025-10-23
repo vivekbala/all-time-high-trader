@@ -303,10 +303,10 @@
     </div>
 
     <script>
-        // EmailJS configuration - UPDATE THESE VALUES
-        const EMAILJS_PUBLIC_KEY = 'YOUR_PUBLIC_KEY_HERE'; // Replace with your EmailJS Public Key
-        const EMAILJS_SERVICE_ID = 'YOUR_SERVICE_ID_HERE'; // Replace with your EmailJS Service ID
-        const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID_HERE'; // Replace with your EmailJS Template ID
+        // EmailJS configuration - Your credentials
+        const EMAILJS_PUBLIC_KEY = 'meKFDl32GQpfisPW1'; // Your EmailJS Public Key
+        const EMAILJS_SERVICE_ID = 'service_dafgvyh'; // Your EmailJS Service ID
+        const EMAILJS_TEMPLATE_ID = 'template_byfnhcm'; // Your EmailJS Template ID
 
         // Initialize EmailJS
         (function() {
@@ -353,23 +353,11 @@
                 return;
             }
             
-            // Check if EmailJS is configured
-            if (EMAILJS_PUBLIC_KEY === 'YOUR_PUBLIC_KEY_HERE' || EMAILJS_SERVICE_ID === 'YOUR_SERVICE_ID_HERE' || EMAILJS_TEMPLATE_ID === 'YOUR_TEMPLATE_ID_HERE') {
-                // Show success message (form works but no email collection yet)
-                setTimeout(() => {
-                    successMessage.innerHTML = '🎉 Thank you for subscribing! (EmailJS not configured yet)';
-                    successMessage.style.display = 'block';
-                    this.reset();
-                    submitBtn.disabled = false;
-                    btnText.style.display = 'inline';
-                    loading.classList.remove('show');
-                }, 1000);
-                return;
-            }
+            // EmailJS is now configured - ready to send emails!
             
             // Send email via EmailJS
             emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-                to_email: 'YOUR_EMAIL@example.com', // Replace with your email
+                to_email: 'vivekbala@gmail.com', // Your email for notifications
                 from_email: email,
                 message: 'New newsletter subscriber: ' + email
             })
