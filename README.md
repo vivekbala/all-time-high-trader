@@ -11,6 +11,14 @@ Your newsletter signup page is now deployed to your GitHub repository and ready 
 https://vivekbala.github.io/all-time-high-trader/
 ```
 
+### 🌐 **Custom Domain Options:**
+- **Current**: `https://vivekbala.github.io/all-time-high-trader/`
+- **Custom Domain**: `https://yourname.com` (hide username)
+- **Subdomain**: `https://newsletter.yourname.com`
+- **Trading Brand**: `https://alltimehightrader.com`
+
+*See `custom-domain-setup.md` for detailed instructions*
+
 ## 🔧 **Next Steps to Go Live:**
 
 ### 1. Enable GitHub Pages
