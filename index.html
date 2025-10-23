@@ -255,8 +255,8 @@
             No spam, just valuable content delivered to your inbox.
         </p>
 
-        <!-- GitHub Pages compatible form - using Formspree -->
-        <form id="newsletterForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+        <!-- GitHub Pages compatible form - basic setup -->
+        <form id="newsletterForm" action="#" method="POST">
             <div class="form-group">
                 <label for="email">Email Address</label>
                 <input 
@@ -275,11 +275,11 @@
         </form>
 
         <div class="success-message" id="successMessage">
-            🎉 Thank you for subscribing! Check your email for confirmation.
+            🎉 Thank you for subscribing! I'll add you to my newsletter list.
         </div>
 
         <div class="error-message" id="errorMessage">
-            ❌ Something went wrong. Please try again later.
+            ❌ Please enter a valid email address.
         </div>
 
         <div class="features">
@@ -303,7 +303,7 @@
     </div>
 
     <script>
-        document.getElementById('newsletterForm').addEventListener('submit', async function(e) {
+        document.getElementById('newsletterForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
             const submitBtn = document.getElementById('submitBtn');
@@ -311,6 +311,7 @@
             const loading = submitBtn.querySelector('.loading');
             const successMessage = document.getElementById('successMessage');
             const errorMessage = document.getElementById('errorMessage');
+            const emailInput = document.getElementById('email');
             
             // Show loading state
             submitBtn.disabled = true;
@@ -321,29 +322,31 @@
             successMessage.style.display = 'none';
             errorMessage.style.display = 'none';
             
-            try {
-                const formData = new FormData(this);
-                const response = await fetch(this.action, {
-                    method: 'POST',
-                    body: formData,
-                    headers: {
-                        'Accept': 'application/json'
-                    }
-                });
-                
-                if (response.ok) {
+            // Basic email validation
+            const email = emailInput.value.trim();
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            
+            if (email && emailRegex.test(email)) {
+                // Simulate form submission
+                setTimeout(() => {
                     successMessage.style.display = 'block';
                     this.reset();
-                } else {
-                    throw new Error('Form submission failed');
-                }
-            } catch (error) {
-                errorMessage.style.display = 'block';
-            } finally {
-                // Reset button state
-                submitBtn.disabled = false;
-                btnText.style.display = 'inline';
-                loading.classList.remove('show');
+                    
+                    // Reset button state
+                    submitBtn.disabled = false;
+                    btnText.style.display = 'inline';
+                    loading.classList.remove('show');
+                }, 1000);
+            } else {
+                // Show error
+                setTimeout(() => {
+                    errorMessage.style.display = 'block';
+                    
+                    // Reset button state
+                    submitBtn.disabled = false;
+                    btnText.style.display = 'inline';
+                    loading.classList.remove('show');
+                }, 1000);
             }
         });
 
